@@ -3,6 +3,9 @@ spring:
     activate:
       on-profile:
         - prod
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
   data:
     mongodb:
       host: localhost

@@ -3,6 +3,9 @@ spring:
     activate:
       on-profile:
         - local
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
   mongodb:
     embedded:
       version: 4.0.21
@@ -11,5 +14,4 @@ spring:
       host: localhost
       port: 27017
       database: local
-
 
