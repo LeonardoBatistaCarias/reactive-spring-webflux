@@ -100,6 +100,17 @@ class MoviesInfoControllerIntgTest {
     }
 
     @Test
+    void getMovieInfoById_notFound() {
+        var id = "def";
+        webTestClient
+                .get()
+                .uri(MOVIES_INFO_URL + "/{id}", id)
+                .exchange()
+                .expectStatus()
+                .isNotFound();
+    }
+
+    @Test
     void updateMovieInfo() {
         final var movieInfo = new MovieInfo("abc", "Batman Begins 2",
                 2005, List.of("Christian Bale", "Michael Cane"), LocalDate.parse("2005-06-15"));
@@ -119,6 +130,21 @@ class MoviesInfoControllerIntgTest {
                     assert result.getMovieInfoId() != null;
                     assertEquals(result.getName(), "Batman Begins 2");
                 });
+    }
+
+    @Test
+    void updateMovieInfo_notFound() {
+        var id = "abc1";
+        var updatedMovieInfo = new MovieInfo("abc", "Dark Knight Rises 1",
+                2013, List.of("Christian Bale1", "Tom Hardy1"), LocalDate.parse("2012-07-20"));
+
+        webTestClient
+                .put()
+                .uri(MOVIES_INFO_URL + "/{id}", id)
+                .bodyValue(updatedMovieInfo)
+                .exchange()
+                .expectStatus()
+                .isNotFound();
     }
 
     @Test
