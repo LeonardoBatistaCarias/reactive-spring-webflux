@@ -32,9 +32,9 @@ class MovieInfoRepositoryIntgTest {
         var movieInfos = List.of(new MovieInfo(null, "Batman Begins",
                         2005, List.of("Christian Bale", "Michael Cane"), LocalDate.parse("2005-06-15")),
                 new MovieInfo(null, "The Dark Knight",
-                        2005, List.of("Christian Bale", "HeathLedger"), LocalDate.parse("2008-07-18")),
+                        2008, List.of("Christian Bale", "HeathLedger"), LocalDate.parse("2008-07-18")),
                 new MovieInfo("abc", "Dark Knight Rises",
-                        2005, List.of("Christian Bale", "Tom Hardy"), LocalDate.parse("2012-07-20")));
+                        2012, List.of("Christian Bale", "Tom Hardy"), LocalDate.parse("2012-07-20")));
         repository.saveAll(movieInfos)
                 .blockLast();
     }
@@ -96,6 +96,24 @@ class MovieInfoRepositoryIntgTest {
 
         StepVerifier.create(moviesInfoFlux)
                 .expectNextCount(2)
+                .verifyComplete();
+    }
+
+    @Test
+    void findMovieInfoByYear() {
+        var movieInfosFlux = repository.findByYear(2005).log();
+
+        StepVerifier.create(movieInfosFlux)
+                .expectNextCount(1)
+                .verifyComplete();
+    }
+
+    @Test
+    void findByName() {
+        var movieInfosMono = repository.findByName("Batman Begins").log();
+
+        StepVerifier.create(movieInfosMono)
+                .expectNextCount(1)
                 .verifyComplete();
     }
 
